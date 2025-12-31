@@ -1,4 +1,3 @@
-
 class AdvancedGitHubFetcher {
     constructor(options = {}) {
         this.username = options.username || 'AyoubToueti';
@@ -427,3 +426,75 @@ function initTypingEffect() {
 
 
 setTimeout(initTypingEffect, 2500);
+
+
+let cvLoaded = false;
+
+function loadCV() {
+    if (cvLoaded) return;
+
+    const cvFrame = document.getElementById('cvFrame');
+    const loader = document.getElementById('cvLoader');
+
+
+    loader.style.display = 'block';
+
+
+    cvFrame.data = 'cv.pdf';
+
+
+    setTimeout(() => {
+        loader.style.display = 'none';
+        cvLoaded = true;
+    }, 1000);
+}
+
+function openCVModal() {
+    const modal = document.getElementById('cvModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+
+    loadCV();
+}
+
+function closeCVModal() {
+    const modal = document.getElementById('cvModal');
+    const modalContent = modal.querySelector('.cv-modal-content');
+
+    modal.classList.remove('active');
+    modalContent.classList.remove('fullscreen');
+    document.body.style.overflow = 'auto';
+
+
+    const fullscreenBtn = modal.querySelector('.cv-modal-controls .cv-btn');
+    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+}
+
+function toggleFullscreen() {
+    const modalContent = document.querySelector('.cv-modal-content');
+    const fullscreenBtn = event.currentTarget;
+
+    if (modalContent.classList.contains('fullscreen')) {
+        modalContent.classList.remove('fullscreen');
+        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+    } else {
+        modalContent.classList.add('fullscreen');
+        fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+    }
+}
+
+
+document.addEventListener('click', function (event) {
+    const modal = document.getElementById('cvModal');
+    if (event.target === modal) {
+        closeCVModal();
+    }
+});
+
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        closeCVModal();
+    }
+});

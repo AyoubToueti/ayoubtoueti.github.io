@@ -1005,18 +1005,55 @@ footer {
     flex: 1;
     overflow: hidden;
     background-color: #2a2a2a;
+    position: relative;
 }
 
-.cv-modal-body iframe {
+.cv-modal-body object {
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.cv-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--accent-green);
+    font-family: 'Fira Code', monospace;
+    z-index: 10;
+}
+
+.cv-loader i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.cv-loader p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.cv-fallback-link {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+}
+
+.cv-fallback-link:hover {
+    color: var(--accent-green);
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -1027,6 +1064,7 @@ footer {
         transform: translateY(50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -1040,11 +1078,11 @@ footer {
         height: 100%;
         border-radius: 0;
     }
-    
+
     .cv-modal-header h3 {
         font-size: 1rem;
     }
-    
+
     .cv-btn {
         padding: 6px 10px;
         font-size: 0.9rem;

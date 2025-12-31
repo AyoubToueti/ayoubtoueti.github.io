@@ -79,7 +79,15 @@
                 </div>
             </div>
             <div class="cv-modal-body">
-                <iframe id="cvFrame" src="cv.pdf" frameborder="0"></iframe>
+                <div id="cvLoader" class="cv-loader">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading Resume...</p>
+                </div>
+                <object id="cvFrame" type="application/pdf" data="">
+                    <p>Your browser doesn't support PDF viewing.
+                        <a href="cv.pdf" download class="cv-fallback-link">Download the PDF</a> instead.
+                    </p>
+                </object>
             </div>
         </div>
     </div>
@@ -285,10 +293,10 @@
                     <div class="skill-item">
                         <div class="skill-header">
                             <span class="skill-name">Git/GitHub</span>
-                            <span class="skill-percent">85%</span>
+                            <span class="skill-percent">65%</span>
                         </div>
                         <div class="skill-bar">
-                            <div class="skill-level" data-width="85"></div>
+                            <div class="skill-level" data-width="65"></div>
                         </div>
                     </div>
                     <div class="skill-item">
@@ -368,7 +376,8 @@
                                 <li>Developed reliable communication protocols and validated system behavior in
                                     client-server and P2P architectures</li>
                                 <li>Gained practical experience in <strong>distributed system design</strong> and
-                                    <strong>protocol reliability</strong></li>
+                                    <strong>protocol reliability</strong>
+                                </li>
                             </ul>
                         </div>
                         <div class="experience-tags">
