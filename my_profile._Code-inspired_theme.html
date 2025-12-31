@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayoub Toueti | Software Engineering Student</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- Terminal Loading Screen -->
+    <div id="loading-screen">
+        <div class="terminal-loading">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-line">
+                    <span class="prompt">$</span> Loading portfolio...
+                </div>
+                <div class="terminal-line">
+                    <span class="prompt">$</span> Initializing system...
+                </div>
+                <div class="terminal-line">
+                    <span class="prompt">$</span> Welcome, Developer!
+                </div>
+                <div class="terminal-line">
+                    <span class="prompt">$</span> Starting application<span class="cursor"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">devPortfolio.js</a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#internship" class="nav-link">Internship</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="resume-btn" onclick="openCVModal()">
+                <i class="fas fa-file-pdf"></i> View Resume
+            </button>
+        </div>
+    </nav>
+
+    <!-- CV Modal -->
+    <div id="cvModal" class="cv-modal">
+        <div class="cv-modal-content">
+            <div class="cv-modal-header">
+                <h3><i class="fas fa-file-pdf"></i> Resume - Ayoub Toueti</h3>
+                <div class="cv-modal-controls">
+                    <button class="cv-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <a href="cv.pdf" download class="cv-btn" title="Download">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <button class="cv-btn cv-close" onclick="closeCVModal()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cv-modal-body">
+                <iframe id="cvFrame" src="cv.pdf" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="typing-container fade-in">
+                <div class="code-line">
+                    <span class="line-number">1</span>
+                    <span class="code-keyword">const</span> <span class="code-function">profile</span> = <span
+                        class="code-keyword">new</span> <span class="code-function">Developer</span>({
+                </div>
+                <div class="code-line">
+                    <span class="line-number">2</span>
+                    &nbsp;&nbsp;name :&nbsp; <span class="code-string"> "Ayoub Toueti"</span>,
+                </div>
+                <div class="code-line">
+                    <span class="line-number">3</span>
+                    &nbsp;&nbsp;status :&nbsp;<span class="code-string">"Seeking An Internship
+                        2026"</span>,
+                </div>
+                <div class="code-line">
+                    <span class="line-number">4</span>
+                    &nbsp;&nbsp;focus :&nbsp;<span class="code-string">"Full-Stack Development & Data
+                        Engineering"</span>,
+                </div>
+                <div class="code-line">
+                    <span class="line-number">5</span>
+                    &nbsp;&nbsp;readyToLearn :&nbsp;<span class="code-keyword">true</span>
+                </div>
+                <div class="code-line">
+                    <span class="line-number">6</span>
+                    });
+                </div>
+                <div class="code-line">
+                    <span class="line-number">7</span>
+                    <span class="code-comment">// Available for internships starting January 2026</span>
+                </div>
+            </div>
+
+            <h1 class="hero-headline fade-in">Building the Future, One Line of Code at a Time</h1>
+            <p class="hero-subtitle fade-in">Computer Science student passionate about creating impactful software
+                solutions. Currently seeking a software development internship to contribute, learn, and grow with an
+                innovative team.</p>
+
+            <div class="hero-buttons fade-in">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-code"></i> View My Projects
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-paper-plane"></i> Contact Me
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-user"></i> About_Me.js
+            </h2>
+
+            <div class="about-container">
+                <div class="fade-in">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                        alt="Ayoub Toueti" class="profile-img">
+                </div>
+
+                <div class="about-content fade-in">
+                    <h3>Hello World! I'm Ayoub Toueti</h3>
+                    <p>Third-year Computer Science student focused on system architecture and data engineering.
+                        Passionate about designing scalable, maintainable systems and solving complex engineering
+                        problems. Seeking to contribute to challenging projects in software development and technical
+                        innovation.</p>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">University</div>
+                            <div class="info-value">National Engineering School of Tunis (ENIT)</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Major</div>
+                            <div class="info-value">Computer Science — 3rd year</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Study Period</div>
+                            <div class="info-value">2023 – Present</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Current Status</div>
+                            <div class="info-value highlight">Seeking Internship</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Location</div>
+                            <div class="info-value">Tunis, Tunisia</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Open To</div>
+                            <div class="info-value">Internships & Collaborative Projects</div>
+                        </div>
+                    </div>
+
+                    <p>I'm actively looking for internship opportunities where I can apply my technical skills, learn
+                        from experienced developers, and contribute to meaningful projects. I'm particularly interested
+                        in roles involving web development, cloud technologies, and scalable systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-cogs"></i> Tech_Stack.md
+            </h2>
+
+            <div class="skills-container">
+                <div class="skill-category fade-in">
+                    <h3>Languages</h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-percent">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="70"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-percent">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">C/C++</span>
+                            <span class="skill-percent">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="70"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Java</span>
+                            <span class="skill-percent">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="90"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3>Frameworks & Libraries</h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">React</span>
+                            <span class="skill-percent">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Node.js</span>
+                            <span class="skill-percent">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Express</span>
+                            <span class="skill-percent">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="70"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Spring Boot</span>
+                            <span class="skill-percent">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="85"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category fade-in">
+                    <h3>Tools & Technologies</h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Git/GitHub</span>
+                            <span class="skill-percent">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">VS Code</span>
+                            <span class="skill-percent">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Docker</span>
+                            <span class="skill-percent">50%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="50"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">AWS</span>
+                            <span class="skill-percent">45%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" data-width="45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-folder-open"></i> Projects/
+            </h2>
+
+            <div id="projects-container" class="projects-container">
+                <!-- Projects will be dynamically loaded from GitHub -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-briefcase"></i> Experience.js
+            </h2>
+
+            <div class="experience-container">
+                <div class="experience-card fade-in">
+                    <div class="experience-timeline">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div>
+                                <h3 class="experience-title">Distributed Systems Internship</h3>
+                                <p class="experience-company">
+                                    <i class="fas fa-building"></i> Declitech
+                                </p>
+                            </div>
+                            <div class="experience-date">
+                                <i class="far fa-calendar-alt"></i> July 2025 – August 2025
+                            </div>
+                        </div>
+                        <div class="experience-description">
+                            <ul>
+                                <li>Modeled, implemented, and tested distributed systems with inter-software
+                                    communication</li>
+                                <li>Developed reliable communication protocols and validated system behavior in
+                                    client-server and P2P architectures</li>
+                                <li>Gained practical experience in <strong>distributed system design</strong> and
+                                    <strong>protocol reliability</strong></li>
+                            </ul>
+                        </div>
+                        <div class="experience-tags">
+                            <span class="exp-tag">Distributed Systems</span>
+                            <span class="exp-tag">Client-Server</span>
+                            <span class="exp-tag">P2P Architecture</span>
+                            <span class="exp-tag">Protocol Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="experience-card fade-in">
+                    <div class="experience-timeline">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="experience-header">
+                            <div>
+                                <h3 class="experience-title">Telecommunications Internship</h3>
+                                <p class="experience-company">
+                                    <i class="fas fa-building"></i> Central Office
+                                </p>
+                            </div>
+                            <div class="experience-date">
+                                <i class="far fa-calendar-alt"></i> August 2024
+                            </div>
+                        </div>
+                        <div class="experience-description">
+                            <ul>
+                                <li>Managed and monitored subscriber lines and network traffic using professional
+                                    telecom software</li>
+                                <li>Learned mobile network mechanisms, including location updates and handovers</li>
+                                <li>Gained hands-on experience with distribution frames and <strong>network monitoring
+                                        systems</strong></li>
+                            </ul>
+                        </div>
+                        <div class="experience-tags">
+                            <span class="exp-tag">Telecommunications</span>
+                            <span class="exp-tag">Network Monitoring</span>
+                            <span class="exp-tag">Mobile Networks</span>
+                            <span class="exp-tag">Subscriber Management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Internship Section -->
+    <section id="internship" class="internship">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-briefcase"></i> Internship_Goals.js
+            </h2>
+
+            <div class="internship-container fade-in">
+                <p>I am actively seeking a <strong>4-6 month software development internship</strong> where I can
+                    contribute to meaningful projects while learning from experienced engineers. I'm eager to apply my
+                    technical skills in a professional environment and grow as a developer.</p>
+
+                <div class="internship-grid">
+                    <div class="internship-item">
+                        <h3>What I'm Looking For</h3>
+                        <p>A role where I can work on full-stack projects, learn modern development practices, and
+                            contribute to a team environment.</p>
+                    </div>
+                    <div class="internship-item">
+                        <h3>My Availability</h3>
+                        <p>Available from <strong>January 15 - October 30, 2026</strong>. Open to remote, hybrid, or
+                            in-person positions.</p>
+                    </div>
+                    <div class="internship-item">
+                        <h3>What I Can Offer</h3>
+                        <p>Strong problem-solving skills, quick learning ability, dedication to writing clean code, and
+                            enthusiasm for collaborative development.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="#contact" class="resume-btn" title="Contact" aria-label="Contact"
+                        style="font-size: 1.1rem;">
+                        <i class="fas fa-envelope"></i> Discuss Internship Opportunities
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-envelope"></i> Contact_Me.js
+            </h2>
+
+            <div class="contact-container">
+                <div class="contact-info fade-in">
+                    <h3>Let's Connect!</h3>
+                    <p>I'm actively seeking internship opportunities and would love to discuss how I can contribute to
+                        your team. Feel free to reach out!</p>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="info-label">Email</div>
+                                <div class="info-value">ayoub.toueti@etudiant-enit.utm.tn</div>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="info-label">Phone</div>
+                                <div class="info-value">+216-54252760</div>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <div class="info-label">Location</div>
+                                <div class="info-value">Tunis, Tunisia</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="https://github.com/AyoubToueti" class="social-link" target="_blank" title="GitHub"
+                            aria-label="GitHub" rel="noopener noreferrer">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ayoub-toueti-b68ba2144" class="social-link" target="_blank"
+                            title="LinkedIn" aria-label="LinkedIn" rel="noopener noreferrer">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="CodePen" aria-label="CodePen">
+                            <i class="fab fa-codepen"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form fade-in">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company (Optional)</label>
+                            <input type="text" id="company" class="form-input" placeholder="Your company name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" class="form-textarea"
+                                placeholder="Hi Ayoub, I'd like to discuss internship or project opportunities..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#about" class="footer-link">About</a>
+                <a href="#skills" class="footer-link">Skills</a>
+                <a href="#projects" class="footer-link">Projects</a>
+                <a href="#internship" class="footer-link">Internship</a>
+                <a href="#contact" class="footer-link">Contact</a>
+            </div>
+            <p class="code-font">© 2026 Ayoub Toueti. All code compiled with <i class="fas fa-heart"
+                    style="color: #ff4757;"></i></p>
+            <p style="margin-top: 10px; color: #666;">Seeking Software Development Internship | 4-6 Month Internship
+                (Jan - Oct 2026)</p>
+        </div>
+    </footer>
+</body>
+
+</html>
