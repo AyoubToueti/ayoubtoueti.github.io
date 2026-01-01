@@ -426,33 +426,77 @@ function initScrollAnimations() {
 }
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
+    emailjs.init("pPz4tsFWYueh3iuVU");
+
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-
 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const company = document.getElementById('company').value;
             const message = document.getElementById('message').value;
 
-
             if (!name || !email || !message) {
-                alert('Please fill in all required fields.');
+                showNotification('Please fill in all required fields.', 'error');
                 return;
             }
 
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
 
+            try {
+                await emailjs.send(
+                    'service_gkhneuo',
+                    'template_nb8vl2t',
+                    {
+                        from_name: name,
+                        from_email: email,
+                        company: company || 'Not specified',
+                        message: message,
+                        to_name: 'Ayoub Toueti',
+                    }
+                );
 
-            alert(`Thank you ${name}! Your message has been sent. I'll get back to you soon!`);
+                showNotification(`Thank you ${name}! Your message has been sent successfully. I'll get back to you soon!`, 'success');
+                contactForm.reset();
 
-
-            contactForm.reset();
+            } catch (error) {
+                console.error('Email send failed:', error);
+                showNotification('Failed to send message. Please try again or email me directly at your-email@example.com', 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 });
+
+// Add notification function
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
 
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

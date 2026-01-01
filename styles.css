@@ -453,6 +453,8 @@ section {
     overflow: hidden;
     border: 1px solid var(--border-color);
     transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -491,6 +493,9 @@ section {
 
 .project-body {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .project-description {
@@ -521,6 +526,14 @@ section {
     gap: 15px;
 }
 
+.project-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+    align-items: center;
+}
+
 .project-link {
     display: flex;
     align-items: center;
@@ -529,10 +542,51 @@ section {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: rgba(0, 255, 136, 0.1);
+    border: 1px solid transparent;
 }
 
 .project-link:hover {
     color: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    background-color: rgba(0, 221, 255, 0.1);
+}
+
+.btn-code {
+    color: var(--accent-green) !important;
+}
+
+.btn-demo {
+    color: var(--accent-purple) !important;
+    background-color: rgba(170, 102, 255, 0.1) !important;
+}
+
+.btn-demo:hover {
+    border-color: var(--accent-purple) !important;
+    background-color: rgba(170, 102, 255, 0.15) !important;
+}
+
+.btn-more {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: var(--accent-cyan);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 221, 255, 0.3);
+    background-color: var(--accent-green);
 }
 
 /* Experience Section */
@@ -1281,6 +1335,10 @@ footer {
     display: block;
 }
 
+.readme-error .fab
+{
+    color: black;
+}
 .readme-error h3 {
     color: var(--accent-cyan);
     margin-bottom: 10px;
@@ -1293,7 +1351,7 @@ footer {
     margin-top: 20px;
     padding: 12px 24px;
     background-color: var(--accent-green);
-    color: var(--bg-primary);
+    color: black;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 600;
@@ -1303,4 +1361,48 @@ footer {
 .readme-link:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+}
+
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 3000;
+    max-width: 400px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    border-left: 4px solid var(--accent-green);
+}
+
+.notification-success i {
+    color: var(--accent-green);
+}
+
+.notification-error {
+    border-left: 4px solid #ff5f56;
+}
+
+.notification-error i {
+    color: #ff5f56;
+}
+
+.notification i {
+    font-size: 1.5rem;
 }
