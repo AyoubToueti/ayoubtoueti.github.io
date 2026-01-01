@@ -308,9 +308,72 @@ const advancedFetcher = new AdvancedGitHubFetcher({
 });
 
 
-function showRepoDetails(repoName) {
-    alert(`More details for ${repoName} would go here.\nYou could implement a modal with:\n- README content\n- Commit history\n- Contributors\n- Recent activity`);
+async function showRepoDetails(repoName) {
+    const modal = document.getElementById('readmeModal');
+    const modalTitle = document.getElementById('readmeModalTitle');
+    const readmeContent = document.getElementById('readmeContent');
+    const readmeLoader = document.getElementById('readmeLoader');
+    
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    
+    modalTitle.innerHTML = `<i class="fab fa-github"></i> ${repoName.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+    
+    
+    readmeLoader.style.display = 'flex';
+    readmeContent.innerHTML = '';
+    
+    try {
+        
+        const response = await fetch(`https://api.github.com/repos/AyoubToueti/${repoName}/readme`, {
+            headers: {
+                'Accept': 'application/vnd.github.html'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('README not found');
+        }
+        
+        const html = await response.text();
+        
+        
+        readmeLoader.style.display = 'none';
+        readmeContent.innerHTML = html;
+        
+        
+        readmeContent.classList.add('markdown-body');
+        
+    } catch (error) {
+        readmeLoader.style.display = 'none';
+        readmeContent.innerHTML = `
+            <div class="readme-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>README not available</h3>
+                <p>This repository doesn't have a README file.</p>
+                <a href="https://github.com/AyoubToueti/${repoName}" target="_blank" class="readme-link">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+        `;
+    }
 }
+
+function closeReadmeModal() {
+    const modal = document.getElementById('readmeModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close README modal with click outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('readmeModal');
+    if (event.target === modal) {
+        closeReadmeModal();
+    }
+});
 
 
 window.addEventListener('load', function () {
