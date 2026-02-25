@@ -1621,3 +1621,49 @@ object[type="application/pdf"] {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Binary Mouse Trail Effects */
+.binary-trail-element {
+    position: fixed !important;
+    font-family: 'Fira Code', monospace !important;
+    font-weight: bold !important;
+    color: var(--accent-green) !important;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5) !important;
+    pointer-events: none !important;
+    z-index: 9998 !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    transition: opacity 0.5s ease-out !important;
+    animation: binaryFloat 1s ease-out forwards !important;
+}
+
+@keyframes binaryFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--move-x, 0), var(--move-y, 0)) scale(0.5);
+        opacity: 0;
+    }
+}
+
+#binary-trail-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+    overflow: hidden !important;
+    mix-blend-mode: screen !important;
+}
+
+/* Ensure trail elements don't interfere with clickable elements */
+.binary-trail-element {
+    pointer-events: none !important;
+    z-index: 9998 !important;
+}

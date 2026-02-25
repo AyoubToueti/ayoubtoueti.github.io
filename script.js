@@ -1179,6 +1179,114 @@ function toggleFullscreen(event) {
 }
 
 
+// Binary Mouse Trail Effect
+function initBinaryMouseTrail() {
+    const trailContainer = document.createElement('div');
+    trailContainer.id = 'binary-trail-container';
+    trailContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+    `;
+    document.body.appendChild(trailContainer);
+
+    const trailElements = [];
+    const maxTrailElements = 20;
+    let mouseX = 0;
+    let mouseY = 0;
+    let lastTime = 0;
+    const trailInterval = 20; // milliseconds between trail elements
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function createTrailElement(x, y) {
+        const element = document.createElement('div');
+        element.className = 'binary-trail-element';
+        element.textContent = Math.random() > 0.5 ? '1' : '0';
+        
+        const size = Math.random() * 12 + 8; // Random size between 8-20px
+        const duration = Math.random() * 1 + 0.5; // Random duration between 0.5-1.5s
+        
+        element.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            font-family: 'Fira Code', monospace;
+            font-size: ${size}px;
+            color: #00ff88;
+            opacity: 1;
+            pointer-events: none;
+            z-index: 9998;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            font-weight: bold;
+            transition: opacity ${duration}s ease-out;
+            user-select: none;
+            -webkit-user-select: none;
+        `;
+        
+        document.body.appendChild(element);
+        trailElements.push({
+            element: element,
+            startTime: Date.now(),
+            duration: duration * 1000
+        });
+
+        // Remove old elements if we exceed the maximum
+        if (trailElements.length > maxTrailElements) {
+            const oldElement = trailElements.shift();
+            if (oldElement.element.parentNode) {
+                oldElement.element.remove();
+            }
+        }
+    }
+
+    function updateTrail(timestamp) {
+        if (timestamp - lastTime > trailInterval) {
+            createTrailElement(mouseX, mouseY);
+            lastTime = timestamp;
+        }
+
+        // Update existing elements
+        for (let i = trailElements.length - 1; i >= 0; i--) {
+            const trailElement = trailElements[i];
+            const elapsed = Date.now() - trailElement.startTime;
+            const progress = Math.min(elapsed / trailElement.duration, 1);
+            
+            if (progress >= 1) {
+                if (trailElement.element.parentNode) {
+                    trailElement.element.remove();
+                }
+                trailElements.splice(i, 1);
+            } else {
+                const opacity = 1 - progress;
+                trailElement.element.style.opacity = opacity.toString();
+                
+                // Add slight random movement for organic effect
+                const xMove = (Math.random() - 0.5) * 20;
+                const yMove = (Math.random() - 0.5) * 20;
+                trailElement.element.style.transform = `translate(${xMove}px, ${yMove}px)`;
+            }
+        }
+
+        requestAnimationFrame(updateTrail);
+    }
+
+    requestAnimationFrame(updateTrail);
+}
+
+// Initialize the binary mouse trail effect when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initBinaryMouseTrail();
+});
+
 document.addEventListener('click', function (event) {
     const modal = document.getElementById('cvModal');
     if (event.target === modal) {
