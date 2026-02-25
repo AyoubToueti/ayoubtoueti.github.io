@@ -1335,10 +1335,10 @@ footer {
     display: block;
 }
 
-.readme-error .fab
-{
+.readme-error .fab {
     color: black;
 }
+
 .readme-error h3 {
     color: var(--accent-cyan);
     margin-bottom: 10px;
