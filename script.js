@@ -107,8 +107,7 @@ class AdvancedGitHubFetcher {
             }));
 
         } catch (error) {
-            console.warn('Failed to fetch pinned repos, falling back to REST API');
-            return null;
+            console.warn('Failed to fetch pinned repos, falling back to REST API:', error);
         }
     }
 
@@ -152,7 +151,7 @@ class AdvancedGitHubFetcher {
             return null;
 
         } catch (error) {
-            return null;
+            console.warn('Failed to retrieve cached data:', error);
         }
     }
 
@@ -246,8 +245,8 @@ class AdvancedGitHubFetcher {
 
     formatRepoName(name) {
         return name
-            .replace(/[-_]/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
+            .replaceAll(/[-_]/g, ' ')
+            .replaceAll(/\b\w/g, l => l.toUpperCase());
     }
 
     showLoading() {
@@ -313,40 +312,41 @@ async function showRepoDetails(repoName) {
     const modalTitle = document.getElementById('readmeModalTitle');
     const readmeContent = document.getElementById('readmeContent');
     const readmeLoader = document.getElementById('readmeLoader');
-    
-    
+
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
-    
-    modalTitle.innerHTML = `<i class="fab fa-github"></i> ${repoName.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
-    
-    
+
+
+    modalTitle.innerHTML = `<i class="fab fa-github"></i> ${repoName.replaceAll(/[-_]/g, ' ').replaceAll(/\b\w/g, l => l.toUpperCase())}`;
+
+
     readmeLoader.style.display = 'flex';
     readmeContent.innerHTML = '';
-    
+
     try {
-        
+
         const response = await fetch(`https://api.github.com/repos/AyoubToueti/${repoName}/readme`, {
             headers: {
                 'Accept': 'application/vnd.github.html'
             }
         });
-        
+
         if (!response.ok) {
             throw new Error('README not found');
         }
-        
+
         const html = await response.text();
-        
-        
+
+
         readmeLoader.style.display = 'none';
         readmeContent.innerHTML = html;
-        
-        
+
+
         readmeContent.classList.add('markdown-body');
-        
+
     } catch (error) {
+        console.error('Failed to load README:', error);
         readmeLoader.style.display = 'none';
         readmeContent.innerHTML = `
             <div class="readme-error">
@@ -368,7 +368,7 @@ function closeReadmeModal() {
 }
 
 // Close README modal with click outside
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const modal = document.getElementById('readmeModal');
     if (event.target === modal) {
         closeReadmeModal();
@@ -394,13 +394,58 @@ window.addEventListener('load', function () {
             advancedFetcher.fetchProjects();
         }, 500);
     }, 2000);
+
+    // Initialize binary background after loading screen fades
+    initBinaryBackground();
 });
+
+// Binary Background Logic
+function initBinaryBackground() {
+    const binaryBackground = document.getElementById('binary-background');
+    if (!binaryBackground) return;
+
+    const numDigits = 100; // Number of digits on screen at once
+    const digits = [];
+
+    function createDigit() {
+        const digit = document.createElement('span');
+        digit.classList.add('binary-digit');
+        digit.textContent = Math.random() < 0.5 ? '0' : '1';
+
+        const fontSize = Math.random() * 1.5 + 0.8; // 0.8rem to 2.3rem
+        const left = Math.random() * 100; // 0% to 100%
+        const animationDuration = Math.random() * 8 + 5; // 5s to 13s
+        const animationDelay = Math.random() * 5; // 0s to 5s
+
+        digit.style.fontSize = `${fontSize}rem`;
+        digit.style.left = `${left}vw`;
+        digit.style.animationDuration = `${animationDuration}s`;
+        digit.style.animationDelay = `-${animationDelay}s`; // Start some animations mid-way
+
+        binaryBackground.appendChild(digit);
+        digits.push(digit);
+
+        // Remove digit after it falls off screen
+        digit.addEventListener('animationend', () => {
+            digit.remove();
+            digits.splice(digits.indexOf(digit), 1);
+            // Create a new one to maintain the number of digits
+            createDigit();
+        });
+    }
+
+    // Initial population
+    for (let i = 0; i < numDigits; i++) {
+        createDigit();
+    }
+
+}
 
 
 function animateSkillBars() {
     const skillLevels = document.querySelectorAll('.skill-level');
     skillLevels.forEach(level => {
-        const width = level.getAttribute('data-width');
+        const width = level.dataset.width;
         level.style.width = width + '%';
     });
 }
@@ -485,13 +530,13 @@ function showNotification(message, type = 'info') {
         <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
         <span>${message}</span>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.classList.add('show');
     }, 100);
-    
+
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
@@ -578,7 +623,7 @@ function closeCVModal() {
     fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
 }
 
-function toggleFullscreen() {
+function toggleFullscreen(event) {
     const modalContent = document.querySelector('.cv-modal-content');
     const fullscreenBtn = event.currentTarget;
 
