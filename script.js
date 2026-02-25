@@ -405,6 +405,7 @@ window.addEventListener('load', async function () {
 
     // Initialize binary background after loading screen fades
     initBinaryBackground();
+    createFloatingMatrix();
 });
 
 // Binary Background Logic
@@ -834,7 +835,7 @@ function populateCVLink(cvUrl) {
 
 // Typing Effect Logic
 function initTypingEffect() {
-    const typingContainer = document.querySelector('.typing-container');
+    const typingContainer = document.querySelector('.hybrid-container');
     if (!typingContainer) return;
 
     const codeLines = Array.from(typingContainer.querySelectorAll('.code-line'));
@@ -1160,17 +1161,13 @@ function closeCVModal() {
 }
 
 function toggleFullscreen(event) {
-    const modalContent = document.querySelector('.cv-modal-content');
-    const fullscreenBtn = event.currentTarget;
+    const cvUrl = globalProfileData?.personalInfo?.cvUrl;
 
-    if (modalContent.classList.contains('fullscreen')) {
-        modalContent.classList.remove('fullscreen');
-        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
-    } else {
-        modalContent.classList.add('fullscreen');
-        fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
-    }
+    window.open(cvUrl, '_blank');
+
+    closeCVModal();
 }
+
 
 
 // Binary Mouse Trail Effect
@@ -1294,3 +1291,19 @@ document.addEventListener('keydown', function (event) {
         closeCVModal();
     }
 });
+
+function createFloatingMatrix() {
+    const container = document.querySelector('.hybrid-container');
+    if (!container) return;
+
+    for (let i = 0; i < 30; i++) {
+        const char = document.createElement('div');
+        char.className = 'floating-matrix';
+        char.textContent = Math.random() > 0.5 ? '0' : '1';
+        char.style.left = Math.random() * 100 + '%';
+        char.style.top = -20 + 'px';
+        char.style.animationDelay = Math.random() * 6 + 's';
+        char.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        container.appendChild(char);
+    }
+}

@@ -35,6 +35,45 @@ body {
     padding: 0 20px;
 }
 
+.hybrid-icons {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.floating-matrix {
+    position: absolute;
+    font-family: 'Fira Code', monospace;
+    color: var(--accent-green);
+    font-size: 0.8rem;
+    opacity: 0.3;
+    animation: float 6s linear infinite;
+    z-index: 1;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.3;
+    }
+
+    90% {
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: translateY(420px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 /* Terminal Loading Screen */
 #loading-screen {
     position: fixed;
@@ -251,7 +290,7 @@ nav {
     text-align: center;
 }
 
-.typing-container {
+.hybrid-container{
     max-width: 800px;
     margin: 0 auto 40px;
     background-color: var(--bg-terminal);
