@@ -405,7 +405,7 @@ function initBinaryBackground() {
     const binaryBackground = document.getElementById('binary-background');
     if (!binaryBackground) return;
 
-    const numDigits = 100; // Number of digits on screen at once
+    const numDigits = 200; // Number of digits on screen at once
     const digits = [];
 
     function createDigit() {
@@ -464,68 +464,88 @@ function initTypingEffect() {
 
     let lineIndex = 0;
     let charIndex = 0;
-    const typingSpeed = 10; // Milliseconds per character
-    const lineDelay = 30; // Milliseconds delay between lines
+    const typingSpeed = 15;
+    const lineDelay = 20;
 
     // Create a single cursor element to move around
     const sharedCursor = document.createElement('span');
     sharedCursor.classList.add('cursor');
 
-    function typeChar() {
-        if (lineIndex < codeLines.length) {
-            const currentLine = codeLines[lineIndex];
-            const { fullHtml, plainText } = originalContents[lineIndex];
+    function initializeLine(currentLine) {
+        currentLine.style.opacity = '1';
+        const lineNumber = document.createElement('span');
+        lineNumber.className = 'line-number';
+        lineNumber.textContent = (lineIndex + 1).toString();
+        currentLine.appendChild(lineNumber);
+        currentLine.appendChild(document.createTextNode(' '));
+    }
 
-            // Make the current line visible
-            currentLine.style.opacity = '1';
-
-            // Attach cursor to the current line if not already there
-            if (!currentLine.contains(sharedCursor)) {
-                // Remove cursor from previous line if it was there
-                const prevLine = codeLines[lineIndex - 1];
-                if (prevLine && prevLine.contains(sharedCursor)) {
-                    sharedCursor.remove();
-                }
-                currentLine.appendChild(sharedCursor);
-            }
-
-            if (charIndex < plainText.length) {
-                // Type character by character into textContent
-                // First, remove the cursor to append text, then re-append it
-                if (currentLine.contains(sharedCursor)) {
-                    sharedCursor.remove();
-                }
-                currentLine.textContent = plainText.substring(0, charIndex + 1);
-                currentLine.appendChild(sharedCursor);
-                
-                charIndex++;
-                setTimeout(typeChar, typingSpeed);
-            } else {
-                // Line finished typing plain text
-                // Remove cursor
-                sharedCursor.remove();
-                
-                // Replace with full HTML content to apply syntax highlighting
-                currentLine.innerHTML = fullHtml;
-                
-                // Ensure the line remains visible
-                currentLine.style.opacity = '1';
-                
-                lineIndex++;
-                charIndex = 0;
-                
-                setTimeout(() => {
-                    if (lineIndex < codeLines.length) {
-                        typeChar(); // Start typing next line
-                    } else {
-                        // All lines typed, ensure the shared cursor is removed from the DOM
-                        sharedCursor.remove();
-                    }
-                }, lineDelay);
-            }
-        } else {
-            // All lines typed, ensure the shared cursor is removed from the DOM
+    function updateLineWithText(currentLine, plainText) {
+        if (sharedCursor.parentNode === currentLine) {
             sharedCursor.remove();
+        }
+        const currentText = plainText.substring(0, charIndex + 1);
+        currentLine.innerHTML = '';
+        const lineNumber = document.createElement('span');
+        lineNumber.className = 'line-number';
+        lineNumber.textContent = (lineIndex + 1).toString();
+        currentLine.appendChild(lineNumber);
+        currentLine.appendChild(document.createTextNode(' ' + currentText));
+        currentLine.appendChild(sharedCursor);
+    }
+
+    function finalizeLine(currentLine, fullHtml) {
+        if (sharedCursor.parentNode === currentLine) {
+            sharedCursor.remove();
+        }
+        currentLine.innerHTML = '';
+        const lineNumber = document.createElement('span');
+        lineNumber.className = 'line-number';
+        lineNumber.textContent = (lineIndex + 1).toString();
+        currentLine.appendChild(lineNumber);
+        currentLine.appendChild(document.createTextNode(' '));
+        currentLine.insertAdjacentHTML('beforeend', fullHtml.replace(/^\s*\d+\s*/, ''));
+        currentLine.style.opacity = '1';
+    }
+
+    function advanceToNextLine() {
+        lineIndex++;
+        charIndex = 0;
+        if (lineIndex < codeLines.length) {
+            setTimeout(typeChar, lineDelay);
+        } else {
+            if (sharedCursor.parentNode) {
+                sharedCursor.remove();
+            }
+        }
+    }
+
+    function typeChar() {
+        if (lineIndex >= codeLines.length) {
+            if (sharedCursor.parentNode) {
+                sharedCursor.remove();
+            }
+            return;
+        }
+
+        const currentLine = codeLines[lineIndex];
+        const { fullHtml, plainText } = originalContents[lineIndex];
+
+        if (charIndex === 0) {
+            initializeLine(currentLine);
+        }
+
+        if (!currentLine.contains(sharedCursor)) {
+            currentLine.appendChild(sharedCursor);
+        }
+
+        if (charIndex < plainText.length) {
+            updateLineWithText(currentLine, plainText);
+            charIndex++;
+            setTimeout(typeChar, typingSpeed);
+        } else {
+            finalizeLine(currentLine, fullHtml);
+            advanceToNextLine();
         }
     }
 

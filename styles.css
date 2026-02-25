@@ -270,6 +270,7 @@ nav {
     overflow: hidden;
     white-space: nowrap;
     max-width: 100%;
+    transition: none; /* Remove any transitions that might cause size changes */
 }
 
 .line-number {
