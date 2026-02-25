@@ -1143,13 +1143,7 @@ function openCVModal() {
     const modal = document.getElementById('cvModal');
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-
-    if (globalProfileData?.personalInfo?.cvUrl) {
-        loadCV(globalProfileData.personalInfo.cvUrl);
-    } else {
-        // Fallback to default cv.pdf if cvUrl is not available in the data
-        loadCV('cv.pdf');
-    }
+    loadCV(globalProfileData.personalInfo.cvUrl);
 }
 
 function closeCVModal() {
