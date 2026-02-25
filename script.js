@@ -376,8 +376,11 @@ document.addEventListener('click', function (event) {
 });
 
 
-window.addEventListener('load', function () {
+window.addEventListener('load', async function () {
     const loadingScreen = document.getElementById('loading-screen');
+
+    // Load profile data first
+    await populateProfileData();
 
     setTimeout(() => {
         loadingScreen.style.opacity = '0';
@@ -440,6 +443,380 @@ function initBinaryBackground() {
         createDigit();
     }
 
+}
+
+
+// Dynamic Content Loading Functions
+async function loadData() {
+    try {
+        const response = await fetch('profile-data.json');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error loading profile data:', error);
+        return null;
+    }
+}
+
+// Populate profile data
+async function populateProfileData() {
+    const data = await loadData();
+    if (!data) return;
+
+    // Update title
+    const titleElement = document.querySelector('title');
+    if (titleElement) {
+        titleElement.textContent = `${data.personalInfo.name} | ${data.personalInfo.title}`;
+    }
+
+    // Update profile-specific text elements
+    document.querySelectorAll('[data-profile-name]').forEach(el => {
+        el.textContent = data.personalInfo.name;
+    });
+
+    document.querySelectorAll('[data-profile-headline]').forEach(el => {
+        el.textContent = data.personalInfo.headline;
+    });
+
+    document.querySelectorAll('[data-profile-subtitle]').forEach(el => {
+        el.textContent = data.personalInfo.subtitle;
+    });
+
+    // Populate profile code container
+    populateProfileCode(data.profileCode.lines);
+
+    // Populate personal info grid
+    populatePersonalInfoGrid(data.personalInfo);
+
+    // Populate skills
+    populateSkills(data.skills);
+
+    // Populate experience
+    populateExperience(data.experiences);
+
+    // Populate internship goals
+    populateInternshipGoals(data.internshipGoals);
+
+    // Populate contact methods
+    populateContactMethods(data.personalInfo.contact);
+
+    // Populate social links
+    populateSocialLinks(data.socialLinks);
+
+    // Update footer status
+    const footerStatus = document.getElementById('footer-status');
+    if (footerStatus) {
+        footerStatus.textContent = data.personalInfo.availability;
+    }
+}
+
+// Populate profile code with typing animation
+function populateProfileCode(lines) {
+    const container = document.getElementById('profile-code-container');
+    if (!container) return;
+
+    // Clear container
+    container.innerHTML = '';
+
+    // Create code lines with typing animation
+    lines.forEach((line, index) => {
+        const codeLine = document.createElement('div');
+        codeLine.className = 'code-line';
+        codeLine.style.opacity = '0';
+        
+        // Add line number
+        const lineNumber = document.createElement('span');
+        lineNumber.className = 'line-number';
+        lineNumber.textContent = (index + 1).toString();
+        codeLine.appendChild(lineNumber);
+        codeLine.appendChild(document.createTextNode(' '));
+
+        // Parse the line for syntax highlighting
+        const highlightedLine = parseCodeLine(line);
+        codeLine.insertAdjacentHTML('beforeend', highlightedLine);
+
+        container.appendChild(codeLine);
+    });
+
+    // Start typing animation
+    setTimeout(() => {
+        initTypingEffect();
+    }, 500);
+}
+
+// Parse code line for syntax highlighting
+function parseCodeLine(line) {
+    let highlighted = line;
+    
+    // Highlight keywords (const, new, true, etc.)
+    highlighted = highlighted.replace(/\b(const|new|true|false|null|undefined)\b/g, '<span class="code-keyword">$1</span>');
+    
+    // Highlight function names
+    highlighted = highlighted.replace(/(\w+)\s*\(/g, '<span class="code-function">$1</span>(');
+    
+    // Highlight strings
+    highlighted = highlighted.replace(/("[^"]*"|'[^']*')/g, '<span class="code-string">$1</span>');
+    
+    // Highlight comments
+    highlighted = highlighted.replace(/(\/\/.*)/g, '<span class="code-comment">$1</span>');
+
+    return highlighted;
+}
+
+// Populate personal info grid
+function populatePersonalInfoGrid(personalInfo) {
+    const container = document.getElementById('personal-info-grid');
+    if (!container) return;
+
+    const infoItems = [
+        { label: 'University', value: personalInfo.university },
+        { label: 'Major', value: personalInfo.major },
+        { label: 'Study Period', value: personalInfo.studyPeriod },
+        { label: 'Current Status', value: personalInfo.currentStatus, highlight: true },
+        { label: 'Location', value: personalInfo.location },
+        { label: 'Open To', value: 'Internships & Collaborative Projects' }
+    ];
+
+    container.innerHTML = '';
+    infoItems.forEach(item => {
+        const infoItem = document.createElement('div');
+        infoItem.className = 'info-item';
+        
+        const label = document.createElement('div');
+        label.className = 'info-label';
+        label.textContent = item.label;
+        
+        const value = document.createElement('div');
+        value.className = item.highlight ? 'info-value highlight' : 'info-value';
+        value.textContent = item.value;
+        
+        infoItem.appendChild(label);
+        infoItem.appendChild(value);
+        container.appendChild(infoItem);
+    });
+}
+
+// Populate skills
+function populateSkills(skills) {
+    const container = document.getElementById('skills-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    Object.keys(skills).forEach(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'skill-category fade-in';
+
+        const heading = document.createElement('h3');
+        heading.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        categoryDiv.appendChild(heading);
+
+        skills[category].forEach(skill => {
+            const skillItem = document.createElement('div');
+            skillItem.className = 'skill-item';
+
+            const skillHeader = document.createElement('div');
+            skillHeader.className = 'skill-header';
+
+            const skillName = document.createElement('span');
+            skillName.className = 'skill-name';
+            skillName.textContent = skill.name;
+
+            const skillPercent = document.createElement('span');
+            skillPercent.className = 'skill-percent';
+            skillPercent.textContent = skill.percentage + '%';
+
+            skillHeader.appendChild(skillName);
+            skillHeader.appendChild(skillPercent);
+
+            const skillBar = document.createElement('div');
+            skillBar.className = 'skill-bar';
+
+            const skillLevel = document.createElement('div');
+            skillLevel.className = 'skill-level';
+            skillLevel.dataset.width = skill.percentage
+
+            skillBar.appendChild(skillLevel);
+
+            skillItem.appendChild(skillHeader);
+            skillItem.appendChild(skillBar);
+            categoryDiv.appendChild(skillItem);
+        });
+
+        container.appendChild(categoryDiv);
+    });
+}
+
+// Populate experience
+function populateExperience(experiences) {
+    const container = document.getElementById('experience-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    experiences.forEach((exp, index) => {
+        const card = document.createElement('div');
+        card.className = 'experience-card fade-in';
+
+        const timeline = document.createElement('div');
+        timeline.className = 'experience-timeline';
+
+        const timelineDot = document.createElement('div');
+        timelineDot.className = 'timeline-dot';
+
+        const timelineLine = document.createElement('div');
+        timelineLine.className = 'timeline-line';
+
+        timeline.appendChild(timelineDot);
+        timeline.appendChild(timelineLine);
+
+        const content = document.createElement('div');
+        content.className = 'experience-content';
+
+        const header = document.createElement('div');
+        header.className = 'experience-header';
+
+        const titleSection = document.createElement('div');
+        
+        const title = document.createElement('h3');
+        title.className = 'experience-title';
+        title.textContent = exp.title;
+
+        const company = document.createElement('p');
+        company.className = 'experience-company';
+        company.innerHTML = `<i class="fas fa-building"></i> ${exp.company}`;
+
+        titleSection.appendChild(title);
+        titleSection.appendChild(company);
+
+        const date = document.createElement('div');
+        date.className = 'experience-date';
+        date.innerHTML = `<i class="far fa-calendar-alt"></i> ${exp.dates}`;
+
+        header.appendChild(titleSection);
+        header.appendChild(date);
+
+        const description = document.createElement('div');
+        description.className = 'experience-description';
+
+        const ul = document.createElement('ul');
+        exp.description.forEach(desc => {
+            const li = document.createElement('li');
+            li.innerHTML = desc;
+            ul.appendChild(li);
+        });
+
+        description.appendChild(ul);
+
+        const tags = document.createElement('div');
+        tags.className = 'experience-tags';
+
+        exp.tags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'exp-tag';
+            tagSpan.textContent = tag;
+            tags.appendChild(tagSpan);
+        });
+
+        content.appendChild(header);
+        content.appendChild(description);
+        content.appendChild(tags);
+
+        card.appendChild(timeline);
+        card.appendChild(content);
+
+        container.appendChild(card);
+    });
+}
+
+// Populate internship goals
+function populateInternshipGoals(goals) {
+    const container = document.getElementById('internship-goals-container');
+    if (!container) return;
+
+    container.innerHTML = `
+        <p>I am actively seeking a <strong>${goals.positionType}</strong> where I can
+            contribute to meaningful projects while learning from experienced engineers. I'm eager to apply my
+            technical skills in a professional environment and grow as a developer.</p>
+
+        <div class="internship-grid">
+            <div class="internship-item">
+                <h3>What I'm Looking For</h3>
+                <p>${goals.interests}</p>
+            </div>
+            <div class="internship-item">
+                <h3>My Availability</h3>
+                <p>Available from <strong>January 15 - October 30, 2026</strong>. Open to remote, hybrid, or
+                    in-person positions.</p>
+            </div>
+            <div class="internship-item">
+                <h3>What I Can Offer</h3>
+                <p>${goals.whatIOffer}</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="#contact" class="resume-btn" title="Contact" aria-label="Contact"
+                style="font-size: 1.1rem;">
+                <i class="fas fa-envelope"></i> Discuss Internship Opportunities
+            </a>
+        </div>
+    `;
+}
+
+// Populate contact methods
+function populateContactMethods(contact) {
+    const container = document.getElementById('contact-methods-container');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="contact-method">
+            <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+                <div class="info-label">Email</div>
+                <div class="info-value">${contact.email}</div>
+            </div>
+        </div>
+        <div class="contact-method">
+            <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+            </div>
+            <div>
+                <div class="info-label">Phone</div>
+                <div class="info-value">${contact.phone}</div>
+            </div>
+        </div>
+        <div class="contact-method">
+            <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+                <div class="info-label">Location</div>
+                <div class="info-value">${contact.address}</div>
+            </div>
+        </div>
+    `;
+}
+
+// Populate social links
+function populateSocialLinks(links) {
+    const container = document.getElementById('social-links-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+    links.forEach(link => {
+        const anchor = document.createElement('a');
+        anchor.href = link.url;
+        anchor.className = 'social-link';
+        anchor.target = '_blank';
+        anchor.title = link.name;
+        anchor.setAttribute('aria-label', link.name);
+        anchor.rel = 'noopener noreferrer';
+        anchor.innerHTML = `<i class="${link.icon}"></i>`;
+        container.appendChild(anchor);
+    });
 }
 
 

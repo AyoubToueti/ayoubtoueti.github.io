@@ -1,0 +1,104 @@
+{
+  "personalInfo": {
+    "name": "Ayoub Toueti",
+    "title": "Software Engineering Student",
+    "headline": "Building the Future, One Line of Code at a Time",
+    "subtitle": "Computer Science student passionate about creating impactful software solutions. Currently seeking a software development internship to contribute, learn, and grow with an innovative team.",
+    "university": "National Engineering School of Tunis (ENIT)",
+    "major": "Computer Science — 3rd year",
+    "studyPeriod": "2023 – Present",
+    "location": "Tunis, Tunisia",
+    "currentStatus": "Seeking Internship",
+    "availability": "Available from January 15 - October 30, 2026",
+    "contact": {
+      "email": "ayoub.toueti@etudiant-enit.utm.tn",
+      "phone": "+216 54 252 760",
+      "address": "Tunis, Tunisia"
+    }
+  },
+  "profileCode": {
+    "lines": [
+      "const profile = new Developer({",
+      "  name : \"Ayoub Toueti\",",
+      "  status :\"Seeking An Internship 2026\",",
+      " focus :\"Full-Stack Development & Data Engineering\",",
+      "  readyToLearn : true",
+      "});",
+      "// Available for internships starting January 2026"
+    ]
+  },
+  "skills": {
+    "languages": [
+      { "name": "JavaScript", "percentage": 70 },
+      { "name": "Python", "percentage": 80 },
+      { "name": "C/C++", "percentage": 70 },
+      { "name": "Java", "percentage": 90 }
+    ],
+    "frameworks": [
+      { "name": "React", "percentage": 80 },
+      { "name": "Node.js", "percentage": 75 },
+      { "name": "Express", "percentage": 70 },
+      { "name": "Spring Boot", "percentage": 85 }
+    ],
+    "tools": [
+      { "name": "Git/GitHub", "percentage": 65 },
+      { "name": "VS Code", "percentage": 90 },
+      { "name": "Docker", "percentage": 50 },
+      { "name": "AWS", "percentage": 45 }
+    ]
+  },
+  "experiences": [
+    {
+      "title": "Distributed Systems Internship",
+      "company": "Declitech",
+      "dates": "July 2025 – August 2025",
+      "description": [
+        "Modeled, implemented, and tested distributed systems with inter-software communication",
+        "Developed reliable communication protocols and validated system behavior in client-server and P2P architectures",
+        "Gained practical experience in <strong>distributed system design</strong> and <strong>protocol reliability</strong>"
+      ],
+      "tags": ["Distributed Systems", "Client-Server", "P2P Architecture", "Protocol Design"]
+    },
+    {
+      "title": "Telecommunications Internship",
+      "company": "Central Office",
+      "dates": "August 2024",
+      "description": [
+        "Managed and monitored subscriber lines and network traffic using professional telecom software",
+        "Learned mobile network mechanisms, including location updates and handovers",
+        "Gained hands-on experience with distribution frames and <strong>network monitoring systems</strong>"
+      ],
+      "tags": ["Telecommunications", "Network Monitoring", "Mobile Networks", "Subscriber Management"]
+    }
+  ],
+  "internshipGoals": {
+    "positionType": "4-6 month software development internship",
+    "interests": "Full-stack projects, modern development practices, team environment",
+    "whatIOffer": "Strong problem-solving skills, quick learning ability, dedication to writing clean code, and enthusiasm for collaborative development"
+  },
+  "socialLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/AyoubToueti",
+      "icon": "fab fa-github"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/ayoub-toueti-b68ba2144",
+      "icon": "fab fa-linkedin-in"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/Ayoub.Toueti.0/",
+      "icon": "fab fa-facebook-f"
+    }
+  ],
+  "navigation": [
+    { "name": "About", "id": "about" },
+    { "name": "Skills", "id": "skills" },
+    { "name": "Projects", "id": "projects" },
+    { "name": "Experience", "id": "experience" },
+    { "name": "Internship", "id": "internship" },
+    { "name": "Contact", "id": "contact" }
+  ]
+}
