@@ -1,3 +1,6 @@
+
+let globalProfileData = null;
+
 class AdvancedGitHubFetcher {
     constructor(options = {}) {
         this.username = options.username || 'AyoubToueti';
@@ -387,15 +390,16 @@ window.addEventListener('load', async function () {
         setTimeout(() => {
             loadingScreen.style.display = 'none';
 
+            // Start typing effect after loading screen fades out
+            setTimeout(() => {
+                initTypingEffect();
+            }, 100); // Small delay to ensure everything is ready
 
             animateSkillBars();
 
-
             initScrollAnimations();
 
-
             advancedFetcher.fetchProjects();
-            initTypingEffect(); // Call the new typing effect here
         }, 500);
     }, 2000);
 
@@ -408,7 +412,7 @@ function initBinaryBackground() {
     const binaryBackground = document.getElementById('binary-background');
     if (!binaryBackground) return;
 
-    const numDigits = 200; // Number of digits on screen at once
+    const numDigits = 100; // Number of digits on screen at once
     const digits = [];
 
     function createDigit() {
@@ -463,6 +467,9 @@ async function populateProfileData() {
     const data = await loadData();
     if (!data) return;
 
+    // Store the data globally for access by other functions
+    globalProfileData = data;
+
     // Update title
     const titleElement = document.querySelector('title');
     if (titleElement) {
@@ -510,7 +517,7 @@ async function populateProfileData() {
     }
 }
 
-// Populate profile code with typing animation
+// Populate profile code - prepare the container but don't start typing yet
 function populateProfileCode(lines) {
     const container = document.getElementById('profile-code-container');
     if (!container) return;
@@ -518,18 +525,11 @@ function populateProfileCode(lines) {
     // Clear container
     container.innerHTML = '';
 
-    // Create code lines with typing animation
+    // Create code lines with syntax highlighting
     lines.forEach((line, index) => {
         const codeLine = document.createElement('div');
         codeLine.className = 'code-line';
         codeLine.style.opacity = '0';
-        
-        // Add line number
-        const lineNumber = document.createElement('span');
-        lineNumber.className = 'line-number';
-        lineNumber.textContent = (index + 1).toString();
-        codeLine.appendChild(lineNumber);
-        codeLine.appendChild(document.createTextNode(' '));
 
         // Parse the line for syntax highlighting
         const highlightedLine = parseCodeLine(line);
@@ -537,28 +537,31 @@ function populateProfileCode(lines) {
 
         container.appendChild(codeLine);
     });
-
-    // Start typing animation
-    setTimeout(() => {
-        initTypingEffect();
-    }, 500);
 }
 
 // Parse code line for syntax highlighting
 function parseCodeLine(line) {
     let highlighted = line;
     
+    // Highlight strings (do this before keywords to prevent highlighting inside strings)
+    highlighted = highlighted.replaceAll(/("[^"]*"|'[^']*')/g, '<span class="code-string">$1</span>');
+
+
     // Highlight keywords (const, new, true, etc.)
-    highlighted = highlighted.replace(/\b(const|new|true|false|null|undefined)\b/g, '<span class="code-keyword">$1</span>');
+    highlighted = highlighted.replaceAll(/\b(const|new|true|false|null|undefined)\b/g, '<span class="code-keyword">$1 &nbsp;</span> ');
     
     // Highlight function names
-    highlighted = highlighted.replace(/(\w+)\s*\(/g, '<span class="code-function">$1</span>(');
-    
-    // Highlight strings
-    highlighted = highlighted.replace(/("[^"]*"|'[^']*')/g, '<span class="code-string">$1</span>');
-    
+    highlighted = highlighted.replaceAll(/(\w+)\s*\(/g, '<span class="code-function">$1&nbsp;</span>(');
+
+
+    // Highlight numbers
+    highlighted = highlighted.replaceAll(/\b(\d+)\b/g, '<span class="code-number">$1&nbsp;</span>');
+
+    // Highlight params "( , ) , { ,} "
+    highlighted = highlighted.replaceAll(/([\(\)\{\}])/g, '<span class="code-param">$1&nbsp;</span>');
+
     // Highlight comments
-    highlighted = highlighted.replace(/(\/\/.*)/g, '<span class="code-comment">$1</span>');
+    highlighted = highlighted.replaceAll(/(\/\/.*)/g, '<span class="code-comment">$1&nbsp;</span>');
 
     return highlighted;
 }
@@ -819,6 +822,15 @@ function populateSocialLinks(links) {
     });
 }
 
+function populateCVLink(cvUrl) {
+    const cvLinks = document.getElementsByClassName('cv-link');
+    if (cvLinks.length > 0) {
+        for (const element of cvLinks) {
+            element.href = cvUrl;
+        }
+    }
+}
+
 
 // Typing Effect Logic
 function initTypingEffect() {
@@ -862,11 +874,18 @@ function initTypingEffect() {
             sharedCursor.remove();
         }
         const currentText = plainText.substring(0, charIndex + 1);
+        
+        // Preserve line number and add the typed text
+        const lineNumber = currentLine.querySelector('.line-number');
+        if (lineNumber) {
+            lineNumber.remove();
+        }
+        
         currentLine.innerHTML = '';
-        const lineNumber = document.createElement('span');
-        lineNumber.className = 'line-number';
-        lineNumber.textContent = (lineIndex + 1).toString();
-        currentLine.appendChild(lineNumber);
+        const newLineNumber = document.createElement('span');
+        newLineNumber.className = 'line-number';
+        newLineNumber.textContent = (lineIndex + 1).toString();
+        currentLine.appendChild(newLineNumber);
         currentLine.appendChild(document.createTextNode(' ' + currentText));
         currentLine.appendChild(sharedCursor);
     }
@@ -1058,23 +1077,66 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 let cvLoaded = false;
 
-function loadCV() {
+async function loadCV(cvUrl) {
     if (cvLoaded) return;
 
     const cvFrame = document.getElementById('cvFrame');
     const loader = document.getElementById('cvLoader');
-
+    const cvModalBody = document.querySelector('.cv-modal-body');
 
     loader.style.display = 'block';
 
-
-    cvFrame.data = 'cv.pdf';
-
-
-    setTimeout(() => {
+    try {
+        // Check if the file exists by making a HEAD request
+        const response = await fetch(cvUrl, { method: 'HEAD' });
+        
+        if (response.ok) {
+            // File exists, load it normally
+            cvFrame.data = cvUrl;
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+                cvFrame.style.display = 'block';
+                cvLoaded = true;
+            }, 1000);
+        } else {
+            // File doesn't exist, show error message
+            throw new Error('File not found');
+        }
+    } catch (error) {
+        console.error('Failed to load CV:', error);
+        // File failed to load, show error message
         loader.style.display = 'none';
+        cvFrame.style.display = 'none';
+        
+        // Create error message element
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'cv-error-message';
+        errorMessage.innerHTML = `
+            <div class="error-terminal">
+                <div class="error-header">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <h4>CV_LOAD_ERROR</h4>
+                </div>
+                <div class="error-details">
+                    <p><strong>STATUS:</strong> <span class="error-status">404_FILE_NOT_FOUND</span></p>
+                    <p><strong>PATH:</strong> ${cvUrl}</p>
+                    <p><strong>ERROR:</strong> CV file is not available at the moment</p>
+                </div>
+                <div class="error-suggestion">
+                    <p><i class="fas fa-lightbulb"></i> <strong>SUGGESTION:</strong> Resume may be temporarily unavailable</p>
+                </div>
+            </div>
+        `;
+        
+        // Clear the modal body and add error message
+        cvModalBody.innerHTML = '';
+        cvModalBody.appendChild(errorMessage);
+        
         cvLoaded = true;
-    }, 1000);
+    }
+    
+    populateCVLink(cvUrl);
 }
 
 function openCVModal() {
@@ -1082,8 +1144,12 @@ function openCVModal() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-
-    loadCV();
+    if (globalProfileData?.personalInfo?.cvUrl) {
+        loadCV(globalProfileData.personalInfo.cvUrl);
+    } else {
+        // Fallback to default cv.pdf if cvUrl is not available in the data
+        loadCV('cv.pdf');
+    }
 }
 
 function closeCVModal() {

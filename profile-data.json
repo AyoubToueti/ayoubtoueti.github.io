@@ -14,15 +14,16 @@
       "email": "ayoub.toueti@etudiant-enit.utm.tn",
       "phone": "+216 54 252 760",
       "address": "Tunis, Tunisia"
-    }
+    },
+    "cvUrl": "cv.pdf"
   },
   "profileCode": {
     "lines": [
       "const profile = new Developer({",
-      "  name : \"Ayoub Toueti\",",
-      "  status :\"Seeking An Internship 2026\",",
-      " focus :\"Full-Stack Development & Data Engineering\",",
-      "  readyToLearn : true",
+      "&nbsp name : \"Ayoub Toueti\",",
+      "&nbsp status :\"Seeking An Internship 2026\",",
+      "&nbsp focus :\"Full-Stack Development & Data Engineering\",",
+      "&nbsp readyToLearn : true",
       "});",
       "// Available for internships starting January 2026"
     ]
