@@ -266,6 +266,10 @@ nav {
     margin-bottom: 15px;
     display: flex;
     align-items: flex-start;
+    opacity: 0; /* Initially hide the line */
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .line-number {

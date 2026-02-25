@@ -392,6 +392,7 @@ window.addEventListener('load', function () {
 
 
             advancedFetcher.fetchProjects();
+            initTypingEffect(); // Call the new typing effect here
         }, 500);
     }, 2000);
 
@@ -441,6 +442,96 @@ function initBinaryBackground() {
 
 }
 
+
+// Typing Effect Logic
+function initTypingEffect() {
+    const typingContainer = document.querySelector('.typing-container');
+    if (!typingContainer) return;
+
+    const codeLines = Array.from(typingContainer.querySelectorAll('.code-line'));
+    const originalContents = [];
+
+    // Store original HTML and plain text content, then clear lines
+    codeLines.forEach(line => {
+        originalContents.push({
+            fullHtml: line.innerHTML,
+            plainText: line.textContent // Get plain text to type character by character
+        });
+        line.innerHTML = ''; // Clear content for typing animation
+        line.style.opacity = '0'; // Initially hide the line
+        // The typing function will make each line visible as it's typed
+    });
+
+    let lineIndex = 0;
+    let charIndex = 0;
+    const typingSpeed = 10; // Milliseconds per character
+    const lineDelay = 30; // Milliseconds delay between lines
+
+    // Create a single cursor element to move around
+    const sharedCursor = document.createElement('span');
+    sharedCursor.classList.add('cursor');
+
+    function typeChar() {
+        if (lineIndex < codeLines.length) {
+            const currentLine = codeLines[lineIndex];
+            const { fullHtml, plainText } = originalContents[lineIndex];
+
+            // Make the current line visible
+            currentLine.style.opacity = '1';
+
+            // Attach cursor to the current line if not already there
+            if (!currentLine.contains(sharedCursor)) {
+                // Remove cursor from previous line if it was there
+                const prevLine = codeLines[lineIndex - 1];
+                if (prevLine && prevLine.contains(sharedCursor)) {
+                    sharedCursor.remove();
+                }
+                currentLine.appendChild(sharedCursor);
+            }
+
+            if (charIndex < plainText.length) {
+                // Type character by character into textContent
+                // First, remove the cursor to append text, then re-append it
+                if (currentLine.contains(sharedCursor)) {
+                    sharedCursor.remove();
+                }
+                currentLine.textContent = plainText.substring(0, charIndex + 1);
+                currentLine.appendChild(sharedCursor);
+                
+                charIndex++;
+                setTimeout(typeChar, typingSpeed);
+            } else {
+                // Line finished typing plain text
+                // Remove cursor
+                sharedCursor.remove();
+                
+                // Replace with full HTML content to apply syntax highlighting
+                currentLine.innerHTML = fullHtml;
+                
+                // Ensure the line remains visible
+                currentLine.style.opacity = '1';
+                
+                lineIndex++;
+                charIndex = 0;
+                
+                setTimeout(() => {
+                    if (lineIndex < codeLines.length) {
+                        typeChar(); // Start typing next line
+                    } else {
+                        // All lines typed, ensure the shared cursor is removed from the DOM
+                        sharedCursor.remove();
+                    }
+                }, lineDelay);
+            }
+        } else {
+            // All lines typed, ensure the shared cursor is removed from the DOM
+            sharedCursor.remove();
+        }
+    }
+
+    // Start the typing effect
+    typeChar();
+}
 
 function animateSkillBars() {
     const skillLevels = document.querySelectorAll('.skill-level');
@@ -562,22 +653,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 
-function initTypingEffect() {
-    const codeLines = document.querySelectorAll('.code-line');
-    let delay = 0;
-
-    codeLines.forEach(line => {
-        line.style.opacity = '0';
-        setTimeout(() => {
-            line.style.transition = 'opacity 0.5s ease';
-            line.style.opacity = '1';
-        }, delay);
-        delay += 200;
-    });
-}
 
 
-setTimeout(initTypingEffect, 2500);
+
+
 
 
 let cvLoaded = false;
