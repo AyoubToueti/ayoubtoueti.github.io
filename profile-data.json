@@ -1,82 +1,117 @@
 {
   "personalInfo": {
     "name": "Ayoub Toueti",
-    "title": "Software Engineering Student",
+    "title": "Junior Computer Science Engineer",
     "headline": "Building the Future, One Line of Code at a Time",
-    "subtitle": "Computer Science student passionate about creating impactful software solutions. Currently seeking a software development internship to contribute, learn, and grow with an innovative team.",
+    "subtitle": "Junior Computer Science Engineer passionate about building impactful software. Experienced in full-stack development, distributed streaming systems, and applied AI. Currently seeking software engineering job opportunities.",
     "university": "National Engineering School of Tunis (ENIT)",
-    "major": "Computer Science — 3rd year",
-    "studyPeriod": "2023 – Present",
-    "location": "Tunis, Tunisia",
-    "currentStatus": "Seeking Internship",
-    "availability": "Available from January 15 - October 30, 2026",
+    "major": "Engineering Degree in Computer Science - Software Engineering & AI",
+    "studyPeriod": "2023 – 2026",
+    "location": "Bizerte, Tunisia",
+    "currentStatus": "Open to Job Opportunities",
+    "availability": "Available immediately - open to full-time roles",
     "contact": {
-      "email": "ayoub.toueti@etudiant-enit.utm.tn",
+      "email": "toueti.ayoub@gmail.com",
       "phone": "+216 54 252 760",
-      "address": "Tunis, Tunisia"
+      "address": "Bizerte, Tunisia"
     },
     "cvUrl": "ayoub_toueti_cv.pdf"
   },
   "profileCode": {
     "lines": [
-      "const profile = new Developer({",
-      "&nbsp name : \"Ayoub Toueti\",",
-      "&nbsp status :\"Seeking An Internship 2026\",",
-      "&nbsp focus :\"Full-Stack Development & Data Engineering\",",
-      "&nbsp readyToLearn : true",
+      "const profile = new Engineer({",
+      "  name : \"Ayoub Toueti\",",
+      "  status :\"Open to Job Opportunities\",",
+      "  focus :\"Full-Stack, Distributed Systems & AI\",",
+      "  graduated : true",
       "});",
-      "// Available for internships starting January 2026"
+      "// Available for full-time software engineering roles"
     ]
   },
   "skills": {
     "languages": [
-      { "name": "JavaScript", "percentage": 70 },
-      { "name": "Python", "percentage": 80 },
-      { "name": "C/C++", "percentage": 70 },
-      { "name": "Java", "percentage": 90 }
+      { "name": "Java", "percentage": 90 },
+      { "name": "Python", "percentage": 85 },
+      { "name": "TypeScript", "percentage": 80 },
+      { "name": "SQL", "percentage": 80 },
+      { "name": "Rust", "percentage": 65 },
+      { "name": "C/C++", "percentage": 70 }
     ],
     "frameworks": [
-      { "name": "React", "percentage": 80 },
-      { "name": "Node.js", "percentage": 75 },
-      { "name": "Express", "percentage": 70 },
-      { "name": "Spring Boot", "percentage": 85 }
+      { "name": "Spring Boot", "percentage": 85 },
+      { "name": "FastAPI", "percentage": 80 },
+      { "name": "SvelteKit", "percentage": 80 },
+      { "name": "Node.js", "percentage": 70 },
+      { "name": "React", "percentage": 70 },
+      { "name": "Angular", "percentage": 65 }
     ],
     "tools": [
-      { "name": "Git/GitHub", "percentage": 65 },
-      { "name": "VS Code", "percentage": 90 },
-      { "name": "Docker", "percentage": 50 },
-      { "name": "AWS", "percentage": 45 }
+      { "name": "PostgreSQL", "percentage": 80 },
+      { "name": "Docker", "percentage": 75 },
+      { "name": "Kafka", "percentage": 75 },
+      { "name": "Spark", "percentage": 70 },
+      { "name": "Git", "percentage": 80 },
+      { "name": "Linux", "percentage": 75 }
     ]
   },
   "experiences": [
     {
-      "title": "Distributed Systems Internship",
-      "company": "Declitech",
-      "dates": "July 2025 – August 2025",
+      "title": "End-of-Studies Project Intern - AI & Software Engineering",
+      "company": "WINGBELS s.r.o. - Prague, Czech Republic",
+      "dates": "Feb 2026 – Aug 2026",
       "description": [
-        "Modeled, implemented, and tested distributed systems with inter-software communication",
-        "Developed reliable communication protocols and validated system behavior in client-server and P2P architectures",
-        "Gained practical experience in <strong>distributed system design</strong> and <strong>protocol reliability</strong>"
+        "Architected <strong>CyFu</strong>, a multi-agent workflow platform automating ISO 21434 TARA for automotive cybersecurity, modeled as a 13-node DAG with per-step human review gates",
+        "Engineered an async <strong>FastAPI</strong> backend executing nodes in topological order (Kahn's algorithm) with real-time <strong>SSE</strong> streaming, cutting manual TARA effort by an estimated <strong>60%</strong> across 9 analysis steps",
+        "Integrated a <strong>LangChain</strong>-based agent service with structured output enforcement and automatic retries, reaching <strong>95%</strong> schema-valid responses across <strong>10+</strong> TARA step types",
+        "Containerized the full stack (<strong>PostgreSQL, Redis, MinIO, Keycloak, TerminusDB</strong>) with Docker Compose and validated it through <strong>100+</strong> automated pytest and API integration tests"
       ],
-      "tags": ["Distributed Systems", "Client-Server", "P2P Architecture", "Protocol Design"]
+      "tags": ["FastAPI", "LangChain", "AI Agents", "SSE", "Docker", "PostgreSQL", "Automotive Security"]
     },
     {
-      "title": "Telecommunications Internship",
-      "company": "Central Office",
-      "dates": "August 2024",
+      "title": "Microservices Developer Intern",
+      "company": "Decclitech - Tunisia",
+      "dates": "2025",
       "description": [
-        "Managed and monitored subscriber lines and network traffic using professional telecom software",
-        "Learned mobile network mechanisms, including location updates and handovers",
-        "Gained hands-on experience with distribution frames and <strong>network monitoring systems</strong>"
+        "Constructed <strong>3 microservices</strong> for a kids management platform covering child records, enrollment, and administrative workflows, serving <strong>500+ users</strong>",
+        "Modeled <strong>15+ REST endpoints</strong> and relational schemas, reducing average API response time by <strong>20%</strong>",
+        "Automated integration tests and CI checks, catching roughly <strong>30%</strong> of regressions before deployment"
       ],
-      "tags": ["Telecommunications", "Network Monitoring", "Mobile Networks", "Subscriber Management"]
+      "tags": ["Microservices", "Spring Boot", "REST APIs", "CI/CD", "SQL"]
+    },
+    {
+      "title": "PHP Developer Intern",
+      "company": "Tunisie Telecom - Bizerte, Tunisia",
+      "dates": "2024",
+      "description": [
+        "Created a <strong>PHP/MySQL</strong> fault reporting and navigation tool used by <strong>50+ field technicians</strong>, eliminating manual address entry entirely",
+        "Embedded <strong>Google Maps</strong> deep links so a technician could jump from a reported fault to turn-by-turn navigation in one click, cutting dispatch time by <strong>40%</strong>",
+        "Designed the MySQL schema and reporting views for <strong>1,000+</strong> fault records, giving supervisors a live view of pending repairs"
+      ],
+      "tags": ["PHP", "MySQL", "Google Maps API", "Reporting", "Web Development"]
     }
   ],
-  "internshipGoals": {
-    "positionType": "4-6 month software development internship",
-    "interests": "Full-stack projects, modern development practices, team environment",
-    "whatIOffer": "Strong problem-solving skills, quick learning ability, dedication to writing clean code, and enthusiasm for collaborative development"
+  "careerGoals": {
+    "positionType": "full-time software engineering role",
+    "interests": "Full-stack development, distributed systems, applied AI, and cloud-native engineering in a collaborative team environment.",
+    "whatIOffer": "Hands-on experience across full-stack, streaming, and AI projects, strong problem-solving skills, and a dedication to clean, well-tested code.",
+    "availability": "Available immediately - open to remote, hybrid, or on-site roles."
   },
+  "education": [
+    {
+      "school": "National School of Engineers of Tunis (ENIT)",
+      "location": "Tunis, Tunisia",
+      "degree": "Engineering Degree in Computer Science - Software Engineering & AI",
+      "dates": "Sep 2023 – Sep 2026"
+    },
+    {
+      "school": "Preparatory Institute for Engineering Studies El Manar",
+      "location": "Tunis, Tunisia",
+      "degree": "Preparatory Cycle in Physics & Technology - National Rank 63/1000 (top 7%)",
+      "dates": "Sep 2021 – Jun 2023"
+    }
+  ],
+  "certifications": "Cisco CCNA1, Intro to Cybersecurity, Networking Basics",
+  "languages": "Arabic (Native), English (B2), French (B2), Italian (Elementary)",
   "socialLinks": [
     {
       "name": "GitHub",
@@ -87,11 +122,6 @@
       "name": "LinkedIn",
       "url": "https://www.linkedin.com/in/ayoub-toueti-b68ba2144",
       "icon": "fab fa-linkedin-in"
-    },
-    {
-      "name": "Facebook",
-      "url": "https://www.facebook.com/Ayoub.Toueti.0/",
-      "icon": "fab fa-facebook-f"
     }
   ],
   "navigation": [
@@ -99,7 +129,7 @@
     { "name": "Skills", "id": "skills" },
     { "name": "Projects", "id": "projects" },
     { "name": "Experience", "id": "experience" },
-    { "name": "Internship", "id": "internship" },
+    { "name": "Career", "id": "career" },
     { "name": "Contact", "id": "contact" }
   ]
 }

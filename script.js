@@ -502,8 +502,11 @@ async function populateProfileData() {
     // Populate experience
     populateExperience(data.experiences);
 
-    // Populate internship goals
-    populateInternshipGoals(data.internshipGoals);
+    // Populate career goals
+    populateCareerGoals(data.careerGoals);
+
+    // Populate education timeline
+    populateEducation(data.education, data.certifications, data.languages);
 
     // Populate contact methods
     populateContactMethods(data.personalInfo.contact);
@@ -578,7 +581,7 @@ function populatePersonalInfoGrid(personalInfo) {
         { label: 'Study Period', value: personalInfo.studyPeriod },
         { label: 'Current Status', value: personalInfo.currentStatus, highlight: true },
         { label: 'Location', value: personalInfo.location },
-        { label: 'Open To', value: 'Internships & Collaborative Projects' }
+        { label: 'Open To', value: 'Full-Time Roles & Collaborative Projects' }
     ];
 
     container.innerHTML = '';
@@ -733,15 +736,15 @@ function populateExperience(experiences) {
     });
 }
 
-// Populate internship goals
-function populateInternshipGoals(goals) {
-    const container = document.getElementById('internship-goals-container');
+// Populate career goals
+function populateCareerGoals(goals) {
+    const container = document.getElementById('career-goals-container');
     if (!container) return;
 
     container.innerHTML = `
         <p>I am actively seeking a <strong>${goals.positionType}</strong> where I can
-            contribute to meaningful projects while learning from experienced engineers. I'm eager to apply my
-            technical skills in a professional environment and grow as a developer.</p>
+            contribute to meaningful products while growing alongside experienced engineers. I'm eager to apply my
+            technical skills in a professional environment.</p>
 
         <div class="internship-grid">
             <div class="internship-item">
@@ -750,8 +753,7 @@ function populateInternshipGoals(goals) {
             </div>
             <div class="internship-item">
                 <h3>My Availability</h3>
-                <p>Available from <strong>January 15 - October 30, 2026</strong>. Open to remote, hybrid, or
-                    in-person positions.</p>
+                <p>${goals.availability}</p>
             </div>
             <div class="internship-item">
                 <h3>What I Can Offer</h3>
@@ -762,10 +764,67 @@ function populateInternshipGoals(goals) {
         <div style="margin-top: 30px; text-align: center;">
             <a href="#contact" class="resume-btn" title="Contact" aria-label="Contact"
                 style="font-size: 1.1rem;">
-                <i class="fas fa-envelope"></i> Discuss Internship Opportunities
+                <i class="fas fa-envelope"></i> Discuss Job Opportunities
             </a>
         </div>
     `;
+}
+
+// Populate education timeline
+function populateEducation(education, certifications, languages) {
+    const container = document.getElementById('education-container');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    (education || []).forEach(edu => {
+        const card = document.createElement('div');
+        card.className = 'experience-card fade-in';
+
+        const timeline = document.createElement('div');
+        timeline.className = 'experience-timeline';
+
+        const timelineDot = document.createElement('div');
+        timelineDot.className = 'timeline-dot';
+
+        const timelineLine = document.createElement('div');
+        timelineLine.className = 'timeline-line';
+
+        timeline.appendChild(timelineDot);
+        timeline.appendChild(timelineLine);
+
+        const content = document.createElement('div');
+        content.className = 'experience-content';
+
+        const header = document.createElement('div');
+        header.className = 'experience-header';
+
+        const titleSection = document.createElement('div');
+
+        const title = document.createElement('h3');
+        title.className = 'experience-title';
+        title.textContent = edu.degree;
+
+        const company = document.createElement('p');
+        company.className = 'experience-company';
+        company.innerHTML = `<i class="fas fa-university"></i> ${edu.school}`;
+
+        titleSection.appendChild(title);
+        titleSection.appendChild(company);
+
+        const date = document.createElement('div');
+        date.className = 'experience-date';
+        date.innerHTML = `<i class="far fa-calendar-alt"></i> ${edu.dates}`;
+
+        header.appendChild(titleSection);
+        header.appendChild(date);
+
+        content.appendChild(header);
+        card.appendChild(timeline);
+        card.appendChild(content);
+
+        container.appendChild(card);
+    });
 }
 
 // Populate contact methods
